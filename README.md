@@ -1,4 +1,7 @@
-### Tailwind Modal
+### React Tailwind 
+## ----------------------------------------------
+
+## Tailwind Modal
 
 # Modal Body
 import { useRef, useState } from 'react';
