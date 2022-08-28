@@ -1,9 +1,9 @@
-### React Tailwind 
-## ----------------------------------------------
+# React Tailwind 
+# ----------------------------------------------
 
 ## Tailwind Modal
 
-# Modal Body
+### Modal Body
 import { useRef, useState } from 'react';
 import ModalHeading from '../atoms/ModalHeading';
 
@@ -49,7 +49,7 @@ const Modal = ({ title = '', children }) => {
 export default Modal;
 
 
-# Modal Heading
+### Modal Heading
 import ClosebarIcon from '../../assets/svgs/ClosebarIcon';
 
 const ModalHeading = ({ title = '', setOpen = Boolean }) => {
