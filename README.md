@@ -64,3 +64,41 @@ const ModalHeading = ({ title = '', setOpen = Boolean }) => {
 };
 
 export default ModalHeading;
+
+
+### Reusable Radio Button
+
+const [selectItem, setSelectItem] = useState(packages[0]);
+	const selectPackage = (pack) => {
+		setSelectItem(pack);
+		// console.log(pack, selectItem);
+	};
+	<RadioButton
+							key={item.name}
+							selectPackage={selectPackage}
+							selectItem={selectItem}
+							packages={packages}
+							item={item}
+							index={index}
+						/>
+
+const RadioButton = ({ packages, item, index, selectPackage, selectItem }) => {
+	return (
+		<button type="button" onClick={() => selectPackage(item)}>
+			<label htmlFor={item.name}>
+				<input
+					type="radio"
+					name={item}
+					className="block mx-auto cursor-pointer"
+					// defaultChecked={index === 0}
+					checked={packages[index] === selectItem}
+					onChange={() => selectPackage(item)}
+				/>
+				<span>{item.name}</span>
+				<p className="text-lg text-center">{item.value}</p>
+			</label>
+		</button>
+	);
+};
+
+export default RadioButton;
