@@ -215,3 +215,189 @@ export const ImageUpload = () => {
 		</div>
 	);
 };
+
+
+## Multiline Stepper 
+/* eslint-disable consistent-return */
+import { useState } from 'react';
+
+const Stepper = () => {
+	const [step, setStep] = useState(0);
+
+	const nextStep = () => {
+		if (step <= 2) {
+			setStep((prevActiveStep) => prevActiveStep + 1);
+		}
+	};
+	const prevStep = () => {
+		if (step >= 1) {
+			setStep((prevActiveStep) => prevActiveStep - 1);
+		}
+	};
+
+	// switch (step) {
+	// 	case 0:
+	// 		<div>
+	// 			<p>step 0</p>
+	// 			<button
+	// 				onClick={nextStep}
+	// 				type="button"
+	// 				className="text-base  ml-2  hover:scale-110 focus:outline-none flex justify-center px-4 py-2 rounded font-bold cursor-pointer
+	//           hover:bg-teal-600
+	//           bg-teal-600
+	//           text-teal-100
+	//           border duration-200 ease-in-out
+	//           border-teal-600 transition"
+	// 			>
+	// 				Next
+	// 			</button>
+	// 		</div>;
+
+	// 		break;
+
+	// 	case 1:
+	// 		<p>step 2</p>;
+	// 		break;
+	// 	case 2:
+	// 		return <p>step 3</p>;
+	// 	case 3:
+	// 		return <p>step 3</p>;
+
+	// 	default:
+	// 		break;
+	// }
+
+	console.log(step);
+
+	return (
+		<div className="p-5">
+			<div className="mx-4 p-4">
+				<div className="flex  items-center text-center">
+					<div className={`flex items-center  relative `}>
+						<div className="rounded-full transition duration-500 ease-in-out h-12 w-12 py-3 bg-action/[0.2]">1st</div>
+						<div className="absolute top-0 -ml-10 rtl:-mr-10 text-center mt-16 w-32 text-xs font-medium uppercase text-darkblack">
+							Overview
+						</div>
+					</div>
+					<div
+						className={`flex-auto border-t-2 transition duration-500 ease-in-out border-lightgray ${
+							step >= 1 ? 'border-action' : 'border-lightgray'
+						}`}
+					/>
+					<div className="flex items-center text-white relative">
+						<div
+							className={`rounded-full transition duration-500 ease-in-out h-12 w-12 py-3  ${
+								step >= 1 ? 'bg-action/[0.2]' : 'bg-ghostwhite'
+							}`}
+						>
+							2nd
+						</div>
+						<div
+							className={`absolute top-0 -ml-10 rtl:-mr-10 text-center mt-16 w-32 text-xs font-medium uppercase ${
+								step >= 1 ? 'text-darkblack' : 'text-lightgray'
+							}`}
+						>
+							Pricing
+						</div>
+					</div>
+					<div
+						className={`flex-auto border-t-2 transition duration-500 ease-in-out border-lightgray ${
+							step >= 2 ? 'border-action' : 'border-lightgray'
+						}`}
+					/>
+					<div className="flex items-center text-white relative">
+						<div
+							className={`rounded-full transition duration-500 ease-in-out h-12 w-12 py-3  ${
+								step >= 2 ? 'bg-action/[0.2]' : 'bg-ghostwhite'
+							}`}
+						>
+							3nd
+						</div>
+						<div
+							className={`absolute top-0 -ml-10 rtl:-mr-10 text-center mt-16 w-32 text-xs font-medium uppercase ${
+								step >= 2 ? 'text-darkblack' : 'text-lightgray'
+							}`}
+						>
+							Description
+						</div>
+					</div>
+					<div
+						className={`flex-auto border-t-2 transition duration-500 ease-in-out border-lightgray ${
+							step >= 3 ? 'border-action' : 'border-lightgray'
+						}`}
+					/>
+					<div className="flex items-center text-white relative">
+						<div
+							className={`rounded-full transition duration-500 ease-in-out h-12 w-12 py-3  ${
+								step >= 3 ? 'bg-action/[0.2]' : 'bg-ghostwhite'
+							}`}
+						>
+							4th
+						</div>
+						<div
+							className={`absolute top-0 -ml-10 rtl:-mr-10 text-center mt-16 w-32 text-xs font-medium uppercase ${
+								step >= 3 ? 'text-darkblack' : 'text-lightgray'
+							}`}
+						>
+							Gallery
+						</div>
+					</div>
+				</div>
+			</div>
+
+			{step === 0 && (
+				<div className="mt-20">
+					<p>step 0 component</p>
+				</div>
+			)}
+
+			{step === 1 && (
+				<div className="mt-20">
+					<p>step 1 component</p>
+				</div>
+			)}
+
+			<div className="flex p-2 mt-4">
+				<button
+					onClick={prevStep}
+					type="button"
+					className="text-base hover:scale-110 focus:outline-none flex justify-center px-4 py-2 rounded font-bold cursor-pointer 
+            hover:bg-gray-200  
+            bg-gray-100 
+            text-gray-700 
+            border duration-200 ease-in-out 
+            border-gray-600 transition"
+				>
+					Previous
+				</button>
+				<div className="flex-auto flex flex-row-reverse">
+					<button
+						onClick={nextStep}
+						type="button"
+						className="text-base  ml-2  hover:scale-110 focus:outline-none flex justify-center px-4 py-2 rounded font-bold cursor-pointer 
+            hover:bg-teal-600  
+            bg-teal-600 
+            text-teal-100 
+            border duration-200 ease-in-out 
+            border-teal-600 transition"
+					>
+						Next
+					</button>
+					<button
+						type="button"
+						className="text-base hover:scale-110 focus:outline-none flex justify-center px-4 py-2 rounded font-bold cursor-pointer 
+            hover:bg-teal-200  
+            bg-teal-100 
+            text-teal-700 
+            border duration-200 ease-in-out 
+            border-teal-600 transition"
+					>
+						Skip
+					</button>
+				</div>
+			</div>
+		</div>
+	);
+};
+
+export default Stepper;
