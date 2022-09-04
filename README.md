@@ -53,7 +53,7 @@ export default Modal;
 
 ### Modal Heading
 
-```
+```ruby
 import ClosebarIcon from '../../assets/svgs/ClosebarIcon';
 
 const ModalHeading = ({ title = '', setOpen = Boolean }) => {
@@ -115,7 +115,7 @@ export default RadioButton;
 
 ### File Upload and preview
 
-```
+```ruby
 import { useState } from 'react';
 import ClosebarIcon from '../../assets/svgs/ClosebarIcon';
 import UploadFileIcon from '../../assets/svgs/UploadFileIcon';
@@ -227,7 +227,7 @@ export const ImageUpload = () => {
 
 ## Multiline Stepper 
 
-```
+```ruby
 import { useState } from 'react';
 
 const Stepper = () => {
@@ -385,7 +385,7 @@ export default Stepper;
 
 ### Input Field Tag Name
 
-```
+```ruby
 
 import React, { useState } from 'react';
 
