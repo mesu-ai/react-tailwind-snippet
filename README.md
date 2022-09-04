@@ -1,7 +1,6 @@
 # React Tailwind 
-# ----------------------------------------------
 
-## Tailwind Modal
+### Tailwind Modal
 
 ### Modal Body
 
@@ -456,7 +455,7 @@ import FileIcon from '../../assets/svgs/FileIcon';
 
 const AddFile = () => {
 	const [ addFiles, setAddFiles] =useState([]);
-	
+
 	const handleFile = (file) => {
 		const newFile = [...addFiles];
 		newFile.push(file);
