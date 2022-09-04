@@ -4,6 +4,8 @@
 ## Tailwind Modal
 
 ### Modal Body
+
+```
 import { useRef, useState } from 'react';
 import ModalHeading from '../atoms/ModalHeading';
 
@@ -48,8 +50,11 @@ const Modal = ({ title = '', children }) => {
 
 export default Modal;
 
+```
 
 ### Modal Heading
+
+```
 import ClosebarIcon from '../../assets/svgs/ClosebarIcon';
 
 const ModalHeading = ({ title = '', setOpen = Boolean }) => {
@@ -65,9 +70,11 @@ const ModalHeading = ({ title = '', setOpen = Boolean }) => {
 
 export default ModalHeading;
 
+```
 
 ### Reusable Radio Button
 
+```
 const [selectItem, setSelectItem] = useState(packages[0]);
 	const selectPackage = (pack) => {
 		setSelectItem(pack);
@@ -105,11 +112,11 @@ const RadioButton = ({ packages, item, index, selectPackage, selectItem }) => {
 
 export default RadioButton;
 
+```
 
 ### File Upload and preview
 
-/* eslint-disable no-nested-ternary */
-/* eslint-disable no-unused-expressions */
+```
 import { useState } from 'react';
 import ClosebarIcon from '../../assets/svgs/ClosebarIcon';
 import UploadFileIcon from '../../assets/svgs/UploadFileIcon';
@@ -215,6 +222,8 @@ export const ImageUpload = () => {
 		</div>
 	);
 };
+
+```
 
 
 ## Multiline Stepper 
@@ -372,5 +381,112 @@ const Stepper = () => {
 };
 
 export default Stepper;
+
+```
+
+### Input Field Tag Name
+
+```
+
+import React, { useState } from 'react';
+
+import Card from '../atoms/Card';
+
+const Overview = () => {
+	
+	const [tagNames, setTagNames] = useState([]);
+
+
+	const addTags = (tags) => {
+		
+		tags
+			.slice()
+			.reverse()
+			.forEach((tag) => {
+				// console.log(tag);
+				setTagNames([...tagNames, tag]);
+			});
+	};
+	const handleKeyPress = (e) => {
+		const tags = [];
+		if (e.key === 'Enter') {
+			e.target.value.split(',').forEach((tag) => {
+				tags.push(tag);
+			});
+
+			addTags(tags);
+
+			e.target.value = '';
+		}
+	};
+	console.log(tagNames);
+
+	const handleRemoveTag = (tag) => {
+		const remainTags = tagNames.filter((item) => item !== tag);
+		setTagNames(remainTags);
+	};
+
+	return (
+		<div>
+				<p className="mb-2">Tag</p>
+				<div className="p-5 flex flex-wrap items-start justify-start  rounded-2xl border border-mercury min-h-[112px] w-full  text-darkblack">
+					{tagNames &&
+						tagNames.map((tag) => (
+							<div key={tag}>
+								<span className="inline mx-2 overflow-clip">{tag}</span>
+								<button type="button" onClick={() => handleRemoveFile(tag)}>
+									<ClosebarIcon className="h-4" />
+								</button>
+							</div>
+						))}
+					<input type="text" onKeyUp={(e) => handleKeyPress(e)} className="outline-none inline " />
+				</div>
+		</div>
+	);
+};
+
+export default Overview;
+
+```
+### Add File and show name
+
+```
+import ClosebarIcon from '../../assets/svgs/ClosebarIcon';
+import FileIcon from '../../assets/svgs/FileIcon';
+
+const AddFile = () => {
+	const [ addFiles, setAddFiles] =useState([]);
+	
+	const handleFile = (file) => {
+		const newFile = [...addFiles];
+		newFile.push(file);
+		setAddFiles(newFile);
+	};
+	const handleRemoveFile = (file) => {
+		const remainFiles = addFiles.filter((item) => item !== file);
+		setAddFiles(remainFiles);
+	};
+	return (
+		<div className="flex flex-row-reverse">
+			<label htmlFor="file-upload" className="border-mercury inline-block p-2 cursor-pointer mx-4">
+				<FileIcon />
+				<input id="file-upload" type="file" className="hidden" onChange={(e) => handleFile(e.target.files[0])} />
+			</label>
+			<div className="flex">
+				{addFiles.map((file) => (
+					<div key={file.name} className="flex border-mercury px-3 py-2 shadow w-fit rounded-lg mx-2">
+						<p className="px-2 text-slategray">{file?.name}</p>
+
+						<button type="button" onClick={() => handleRemoveFile(file)}>
+							<ClosebarIcon className="h-4" />
+						</button>
+					</div>
+				))}
+			</div>
+		</div>
+	);
+};
+
+export default AddFile;
 
 ```
