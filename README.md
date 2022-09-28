@@ -489,3 +489,42 @@ const AddFile = () => {
 export default AddFile;
 
 ```
+
+### Accrodion
+
+```
+import { useState } from 'react';
+import ArrowDownSlate from '../../assets/svgs/ArrowDownSlate';
+import ArrowUpSlate from '../../assets/svgs/ArrowUpSlate';
+
+const Accrodion = ({
+	className = '',
+	title = 'Accrodion Title',
+	titleStyle = 'text-darkblack',
+	isOpen = false,
+	children,
+}) => {
+	const [open, setOpen] = useState(isOpen);
+	return (
+		<div className={`border-2 border-mercury rounded-lg ${className}`}>
+			<button
+				type="button"
+				onClick={() => setOpen((prevState) => !prevState)}
+				className={`w-full px-6 py-4 flex justify-between ${open ? 'border-b-2 border-mercury' : ''}`}
+			>
+				<p className={`text-base font-bold  ${titleStyle}`}>{title}</p>
+				{open ? <ArrowUpSlate /> : <ArrowDownSlate />}
+			</button>
+			{open && <div>{children}</div>}
+		</div>
+	);
+};
+
+export default Accrodion;
+
+for map of accrodian and open nth element isOpen={array.length===index}
+
+<Accrodion className="mb-4" title="Order declined" titleStyle="text-danger uppercase" isOpen={false}>
+			content here							
+</Accrodion>
+```
