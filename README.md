@@ -528,3 +528,278 @@ for map of accrodian and open nth element isOpen={array.length===index}
 			content here							
 </Accrodion>
 ```
+
+### Formic text field
+```
+import { Field, useField } from 'formik';
+import { useTranslation } from 'react-i18next';
+
+const InputText = ({
+	label = '',
+	lebelStyle = '',
+	errorStyle = 'text-center',
+	as = '',
+	type = '',
+	name = '',
+	placeholder = '',
+	className = '',
+	...props
+}) => {
+	const { t } = useTranslation();
+	const [field, meta, helpers] = useField({ name });
+
+	return (
+		<>
+			<label className={`mb-2  ${lebelStyle}`} htmlFor={name}>
+				{t(`${label}`)}
+				<Field
+					as={as}
+					type={type}
+					className={`w-full outline-none inline mx-2  ${className}`}
+					name={name}
+					placeholder={t(`${placeholder}`)}
+					{...props}
+				/>
+			</label>
+
+			{meta.touched && meta.error ? (
+				<div className={`error pt-2 text-red-600 ${errorStyle}`}>{t(meta.error)}</div>
+			) : null}
+		</>
+	);
+};
+
+export default InputText;
+
+```
+### Formic radio button
+```
+
+import { Field, useField } from 'formik';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
+const InputRadio = ({ items = [], name = '', errorStyle = 'hidden', children = {} }) => {
+	const [customTime, setCustomTime] = useState();
+	const [field, meta] = useField({ name });
+	const { t } = useTranslation();
+
+	// console.log({ field });
+
+	return (
+		<>
+			{items.map((item) => (
+				<label
+					key={item.id}
+					className={`cursor-pointer flex justify-center border-r-2 border-mercury ${
+						field?.value === item?.value ? 'font-bold text-darkblue' : ''
+					}`}
+					htmlFor={item.id}
+				>
+					<Field {...field} type="radio" className="hidden" id={item.id} name={name} value={item.value} />
+					{item.value} {parseInt(item.value, 10) === 1 ? 'day' : 'days'}
+				</label>
+			))}
+
+			{children}
+			{meta.touched && meta.error && (
+				<div className={`error pt-2 text-red-600 text-start ${errorStyle}`}>{t(meta.error)}</div>
+			)}
+		</>
+	);
+};
+
+export default InputRadio;
+
+```
+### Formic select field
+```
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable no-unused-vars */
+import { Field, useField } from 'formik';
+import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+
+const InputSelect = ({
+	label = '',
+	className = 'mt-2',
+	labelClass = 'text-lg text-darkblack',
+	optionColor = 'text-black',
+	name = '',
+	opts = {},
+	items = [],
+	defaultLabel = 'Select',
+	dispatch,
+}) => {
+	const { t, i18n } = useTranslation();
+	const [field, meta, helpers] = useField({ name });
+
+	useEffect(() => {
+		if (dispatch) {
+			dispatch({ type: 'INBOX_SORTING', payload: field?.value });
+		}
+	}, [dispatch, field?.value]);
+
+	return (
+		<>
+			<label className={` mb-2 font-semibold  ${labelClass}`}>{t(`${label}`)}</label>
+			<Field
+				as="select"
+				name={name}
+				className={` w-full flex justify-between outline-none border border-mercury p-3 rounded-xl ${className}`}
+			>
+				{defaultLabel && <option>{t(`${defaultLabel}`)}</option>}
+				{items &&
+					items.map((item) => (
+						<option key={item.id} value={item[opts.value] || item.value} className={`${optionColor}`}>
+							{i18n.language === 'ar' ? item?.name_ar : item?.name}
+						</option>
+					))}
+			</Field>
+			{meta.touched && meta.error ? <div className="error pt-2 text-red-600 text-start">{t(meta.error)}</div> : null}
+		</>
+	);
+};
+
+// {
+// 	items.map((item) => (
+// 		<option key={item.id} value={item[opts.value] || item.value} className="text-black">
+// 			{i18n.language === 'ar' ? item.name_ar : item.name}
+// 		</option>
+// 	));
+// }
+
+export default InputSelect;
+
+```
+### Formic Password
+```
+import { Field, useField } from 'formik';
+
+import { useTranslation } from 'react-i18next';
+import { boolean } from 'yup';
+import { EyeIcon, HideIcon } from '../../assets/svgs';
+
+const InputFeild = ({
+	icon = {},
+	showicon = false,
+	placeholder = '',
+	name = '',
+	type = '',
+	setShowPassword = boolean,
+	showPassword = [],
+}) => {
+	// eslint-disable-next-line no-unused-vars
+	const [field, meta, helpers] = useField({ name });
+	const { t } = useTranslation();
+
+	return (
+		<div className="mb-5">
+			<div className="flex rounded-lg py-3 px-3 w-full bg-ghostwhite">
+				<div className="flex justify-center items-center">{icon}</div>
+
+				<Field
+					className="outline-0 mx-2 w-full text-sm font-medium bg-ghostwhite placeholder:text-slategray"
+					name={name}
+					placeholder={t(`${placeholder}`)}
+					type={type}
+				/>
+
+				{showicon &&
+					(showPassword ? (
+						<button onClick={() => setShowPassword(!showPassword)} type="button">
+							<EyeIcon className="w-4 h-5" />
+						</button>
+					) : (
+						<button onClick={() => setShowPassword(!showPassword)} type="button">
+							<HideIcon className="w-4 h-5" />
+						</button>
+					))}
+			</div>
+
+			{meta.touched && meta.error ? <div className="error text-start text-red-600">{t(meta.error)}</div> : null}
+		</div>
+	);
+};
+
+export default InputFeild;
+
+```
+### Rating with Formic
+
+```
+import { Field, useField } from 'formik';
+import { useTranslation } from 'react-i18next';
+import StarIcon from '../../assets/svgs/StarIcon';
+
+const Rating = ({ name = '', className = 'h-6 w-6' }) => {
+	const { t } = useTranslation();
+	const [field, meta, helpers] = useField({ name });
+
+	return (
+		<div>
+			<label htmlFor={name}>
+				<Field name={name} type="number" id={name} className="hidden" />
+
+				{[...Array(5)].map((_, index) => {
+					index += 1;
+					return (
+						<button
+							key={index}
+							type="button"
+							onClick={() => helpers.setValue(index)}
+							onMouseEnter={() => helpers.setValue(index)}
+							onMouseLeave={() => helpers.setValue(index)}
+						>
+							<StarIcon className={`${className}`} color={`${index <= field.value ? '#F2B556' : '#E6E8EC'}`} />
+						</button>
+					);
+				})}
+			</label>
+
+			{meta.touched && meta.error ? <div className="error pt-2 text-red-600 text-start">{t(meta.error)}</div> : null}
+		</div>
+	);
+};
+
+export default Rating;
+
+```
+
+### Attechment download
+```
+import axios from 'axios';
+import download from 'js-file-download';
+import icon from '../../assets/images/AttachmentLarge.png';
+import DownloadIconAction from '../../assets/svgs/DownloadIconAction';
+
+const AttachmentDownload = () => {
+	const fileDownload = (url) => {
+		const fileName = 'Filename';
+		axios
+			.get(url, {
+				responseType: 'blob',
+			})
+			.then((res) => {
+				download(res.data, fileName);
+			});
+	};
+	return (
+		<div className="border-2 border-mercury rounded-xl w-40">
+			<div className="grid place-content-center">
+				<img className="p-10" src={icon} alt="attachment icon" />
+			</div>
+			<div className="border-t-2 border-mercury py-2 px-3 flex  justify-between">
+				<p className="text-xs font-medium text-darkblue">File Name</p>
+				<button onClick={(url) => fileDownload(url)} type="button">
+					<DownloadIconAction />
+				</button>
+			</div>
+		</div>
+	);
+};
+
+export default AttachmentDownload;
+
+```
