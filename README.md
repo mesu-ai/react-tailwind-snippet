@@ -1,5 +1,176 @@
 # React Tailwind 
 
+
+### Mega menu/secondary navbar/ dropdown
+```
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+
+import NavigationDropdown from '../../components/molecules/NavigationDropdown';
+import { secondaryNavItems } from '../../routes/headerRoutes';
+
+const SecondaryNav = () => {
+	return (
+		<div className="hidden lg:block   py-3" style={{ backgroundColor: 'rgba(245, 246, 250, 0.8)' }}>
+			<div className="container mx-auto  px-2 xl:px-10">
+				<div className="relative">
+					<div className="flex justify-between text-sm ">
+						{secondaryNavItems.map((item, index, items) => (
+							<NavigationDropdown key={item.id} menuItem={item} items={items} />
+						))}
+					</div>
+				</div>
+			</div>
+		</div>
+	);
+};
+
+export default SecondaryNav;
+
+```
+```
+/* eslint-disable no-nested-ternary */
+import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
+const NavigationDropdown = ({ items = 0, menuItem = 0 }) => {
+	// eslint-disable-next-line no-unused-vars
+	const [show, setShow] = useState(false);
+	const targetRef = useRef(null);
+	const { t } = useTranslation();
+	const handleToggle = () => setShow((prevState) => !prevState);
+
+	useEffect(() => {
+		const handleShowprofileMenu = (event) => {
+			if (targetRef && !targetRef?.current?.contains(event.target)) {
+				setShow(false);
+			}
+		};
+		if (show) window.addEventListener('click', handleShowprofileMenu);
+
+		return () => window.removeEventListener('click', handleShowprofileMenu);
+	}, [show]);
+
+	return (
+		<div className="relative inline-block text-left">
+			<div>
+				<button
+					className="text-slategray flex justify-between"
+					ref={targetRef}
+					type="button"
+					id="menu-button"
+					aria-expanded="true"
+					aria-haspopup="true"
+					onClick={handleToggle}
+				>
+					{t(`${menuItem?.categoryName}`)}
+				</button>
+			</div>
+
+			{show && (
+				<div
+					className={`origin-top-right absolute mt-5 w-96 rounded-xl px-4 pb-8 pt-4 z-50  bg-white ring-1 ring-black ring-opacity-5 focus:outline-none ${
+						items[0] === menuItem
+							? '-right-40 rtl:right-0'
+							: items[items.length - 1] === menuItem
+							? 'right-0 rtl:-right-80'
+							: '-right-28'
+					}`}
+					style={{
+						boxShadow: '0px 15px 37px 2px rgba(0, 0, 0, 0.16)',
+					}}
+					role="menu"
+					aria-orientation="vertical"
+					aria-labelledby="menu-button"
+					tabIndex="-1"
+				>
+					<p className="text-start font-semibold text-darkblue text-lg py-3 px-5">{menuItem?.categoryName}</p>
+					<hr className="border border-mercury mb-3" />
+					<div className="py-1" role="none">
+						{menuItem?.subItems.map((item) => (
+							<a
+								key={item.id}
+								href="#"
+								className="block rounded-xl hover:bg-action hover:bg-opacity-10 z-10 space-y-2 px-5  py-2"
+								role="menuitem"
+								tabIndex="-1"
+								id="menu-item-0"
+							>
+								<p className="font-medium text-[#353945] text-start">{item?.name}</p>
+							</a>
+						))}
+					</div>
+					<p className="text-action font-semibold px-4 mt-3">Others &gt;</p>
+				</div>
+			)}
+		</div>
+	);
+};
+
+export default NavigationDropdown;
+
+```
+### React countdown
+
+```
+import Countdown, { zeroPad } from 'react-countdown';
+import Card from '../atoms/Card';
+
+const renderer = ({ days, hours, minutes, completed }) => {
+	if (completed) {
+		// Render a complete state
+		return <p>Time Out</p>;
+	}
+
+	const updatedDays = zeroPad(days);
+	const updatedHours = zeroPad(hours);
+	const updatedMinutes = zeroPad(minutes);
+	// Render a countdown
+
+	return (
+		<div className="flex justify-center gap-3 xm:gap-5 sm:gap-8">
+			<div>
+				<Card className="text-action p-4 sm:p-7 font-bold  text-xl xm:text-3xl sm:text-5xl">
+					<span>{String(updatedDays)[0]}</span>
+					<span className="border-l-2 border-mercury mx-3 sm:mx-5" />
+					<span>{String(updatedDays)[1]}</span>
+				</Card>
+				<p className="text-center mt-[10px] text-sm xm:text-base  text-darkblack font-medium">DAYS</p>
+			</div>
+
+			<div>
+				<Card className="text-action p-4 sm:p-7 font-bold  text-xl xm:text-3xl sm:text-5xl">
+					<span>{String(updatedHours)[0]}</span>
+					<span className="border-l-2 border-mercury mx-3 sm:mx-5" />
+					<span>{String(updatedHours)[1]}</span>
+				</Card>
+				<p className="text-center mt-[10px] text-sm xm:text-base  text-darkblack font-medium">HOURS</p>
+			</div>
+
+			<div>
+				<Card className="text-action p-4 sm:p-7 font-bold  text-xl xm:text-3xl sm:text-5xl">
+					<span>{String(updatedMinutes)[0]}</span>
+					<span className="border-l-2 border-mercury mx-3 sm:mx-5" />
+					<span>{String(updatedMinutes)[1]}</span>
+				</Card>
+				<p className="text-center mt-[10px] text-sm xm:text-base  text-darkblack font-medium">MINUTES</p>
+			</div>
+		</div>
+	);
+};
+
+const TimeCountdown = () => {
+	return (
+		<div>
+			<Countdown date={new Date('2022-10-30').getTime()} renderer={renderer} />
+		</div>
+	);
+};
+
+export default TimeCountdown;
+
+
+```
+
 ### Tailwind Modal
 
 ### Modal Body
