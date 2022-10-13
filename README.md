@@ -225,7 +225,7 @@ export const ImageUpload = () => {
 ```
 
 
-## Multiline Stepper 
+### Multiline Stepper 
 
 ```ruby
 import { useState } from 'react';
@@ -766,7 +766,32 @@ const Rating = ({ name = '', className = 'h-6 w-6' }) => {
 export default Rating;
 
 ```
+### Show rating
+```
+/* eslint-disable no-param-reassign */
+/* eslint-disable react/no-array-index-key */
 
+import StarIcon from '../../assets/svgs/StarIcon';
+
+const ShowRatings = ({ ratings = 5, reviews = 100,  }) => {
+	return (
+		<div className="flex justify-center items-center gap-1">
+		
+					{[...new Array(5)].map((_, index) => {
+						index += 1;
+						return <StarIcon key={index} color={`${index <= Math.ceil(ratings) ? '#F2B556' : '#E6E8EC'}`} />;
+					})}
+					<p className="ms-1 text-yellow font-semibold">
+						<span>{ratings}</span>
+						<span> ({reviews})</span>
+					</p>
+		</div>
+	);
+};
+
+export default ShowRatings;
+
+```
 ### Attechment download
 ```
 import axios from 'axios';
@@ -801,5 +826,136 @@ const AttachmentDownload = () => {
 };
 
 export default AttachmentDownload;
+
+```
+
+### video player
+```
+import { useState } from 'react';
+import PlayButtonIcon from '../../assets/svgs/PlayButtonIcon';
+
+const VideoPlayer = ({ srcvideo = '' }) => {
+	const [play, setPlay] = useState(false);
+	const myVideo = document.getElementById('videoplayId');
+	const playPause = () => {
+		if (srcvideo && myVideo.paused) {
+			myVideo.play();
+			setPlay(true);
+		} else if (srcvideo) {
+			myVideo.pause();
+			setPlay(false);
+		}
+	};
+
+	return (
+		<div className="text-center relative group">
+			<video id="videoplayId" width="500" height="300" src={srcvideo}>
+				{/* <source src={srcvideo} type="video/mp4" /> */}
+				<track src="" kind="captions" srcLang="en" label="english_captions" />
+			</video>
+			<button
+				className={`absolute inset-0 ${play ? 'hidden' : 'block'} group-hover:block`}
+				type="button"
+				onClick={playPause}
+			>
+				<PlayButtonIcon className="mx-auto" />
+			</button>
+		</div>
+	);
+};
+
+export default VideoPlayer;
+
+```
+
+### Table
+
+```
+//main component
+const Table = ({ children, className = 'w-full', tableContainer = ' ' }) => {
+	return (
+		// rounded-2xl
+		<div className={`overflow-x-auto relative rounded-2xl ${tableContainer}`}>
+			<table className={`text-sm text-left text-gray-500 ${className}`}>{children}</table>
+		</div>
+	);
+};
+
+export default Table;
+
+```
+
+```
+//heading title
+import { useTranslation } from 'react-i18next';
+
+const TableHeadData = ({ title, className = '' }) => {
+	const { t } = useTranslation();
+	return (
+		<th scope="col" className={`py-3 px-6 ${className}`}>
+			{t(`${title}`)}
+		</th>
+	);
+};
+
+export default TableHeadData;
+
+
+```
+
+```
+//row data
+/* eslint-disable react/jsx-props-no-spreading */
+const TableData = ({ children, className = '', colSpan = '' }) => {
+	return (
+		<td className={`px-6 py-8 ${className}`} colSpan={colSpan}>
+			{children}
+		</td>
+	);
+	// py-4 px-6 pt-5 pb-8
+};
+
+export default TableData;
+
+
+
+```
+
+```
+<Table tableContainer="border border-mercury">
+					<thead className=" text-gray-700  bg-smoke  rounded-t-lg">
+						<tr className="rounded-t-lg">
+							{accountStatementsLevel &&
+								accountStatementsLevel.map((title) => <TableHeadData key={title} title={title} />)}
+						</tr>
+					</thead>
+					<tbody>
+						{accountStatements &&
+							accountStatements.map((item) => (
+								<tr key={item.id} className=" bg-white border-b text font-medium">
+									<TableData className="text-darkblue font-bold">{item?.id}</TableData>
+									<TableData className="text-darkblue font-bold">{item?.sellerName}</TableData>
+									<TableData>{item?.item}</TableData>
+									<TableData className="text-darkblue font-bold">{item?.quantity}</TableData>
+									<TableData>{item?.duration}</TableData>
+									<TableData className="text-darkblue font-bold">{item?.deliveryDate}</TableData>
+									<TableData className="text-darkblue font-bold">{item?.totalPrice}</TableData>
+									<TableData className="flex items-start">
+										<Button
+											className={`mt-0.5 py-3 px-5 w-32 ${
+												item.paymentStatus === 'Completed'
+													? 'bg-thingreen text-[#35C27F]'
+													: 'bg-thinyellow text-[#F2B556]'
+											}`}
+											title={item?.paymentStatus}
+										/>
+									</TableData>
+								</tr>
+							))}
+					</tbody>
+				</Table>
+```
+
+### Rating component
 
 ```
