@@ -2,7 +2,7 @@
 
 
 ### Mega menu/secondary navbar/ dropdown
-```
+```ruby
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
 import NavigationDropdown from '../../components/molecules/NavigationDropdown';
@@ -27,7 +27,7 @@ const SecondaryNav = () => {
 export default SecondaryNav;
 
 ```
-```
+```ruby
 /* eslint-disable no-nested-ternary */
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -111,7 +111,7 @@ export default NavigationDropdown;
 ```
 ### React countdown
 
-```
+```ruby
 import Countdown, { zeroPad } from 'react-countdown';
 import Card from '../atoms/Card';
 
@@ -175,7 +175,7 @@ export default TimeCountdown;
 
 ### Modal Body
 
-```
+```ruby
 import { useRef, useState } from 'react';
 import ModalHeading from '../atoms/ModalHeading';
 
