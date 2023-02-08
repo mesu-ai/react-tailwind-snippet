@@ -1,6 +1,152 @@
 # React Tailwind 
 
 
+
+### Navbar with mobile responsiveness
+
+#### close icon
+```ruby
+
+const ClosebarIcon=({ height = 24, width = 24, className = '', color = 'currentColor' })=> {
+    return (
+        <svg
+            width={height}
+            height={width}
+            viewBox={`0 0 ${height} ${width}`}
+            className={className}
+            fill="none"
+            stroke={` ${color}`}
+            strokeWidth="2"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+    );
+}
+
+
+export default ClosebarIcon;
+
+
+
+```
+
+#### menu icon
+```ruby
+
+const MenubarIcon=({ height = 24, width = 24, className = '' })=> {
+    return (
+        <svg
+            width={height}
+            height={width}
+            viewBox={`0 0 ${height} ${width}`}
+            className={className}
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+    );
+}
+
+
+
+export default MenubarIcon;
+
+```
+
+#### primary navbar
+
+```ruby
+import { useState } from 'react';
+import ClosebarIcon from '../../assets/ClosebarIcon';
+import MenubarIcon from '../../assets/MenubarIcon';
+import MobileScreen from './MobileScreen';
+
+const PrimaryNavbar=()=> {
+    const [open, setOpen] = useState(false);
+
+    return (
+        <nav className={`w-full   z-50  'mt-0' : 'mt-8'} `}>
+            <div className=" mx-4 lg:mx-10 px-5 py-3 dark:bg-darkBg bg-white rounded-full shadow-lg ">
+                <div className="relative container flex items-center justify-between h-16">
+                    <div className="flex items-center justify-center sm:justify-start gap-6">
+                        <div className="col-span-1 block">Logo</div>
+
+                        <div className="hidden md:block sm:mx-6 md:mx-auto">
+                            <div className="flex flex-row justify-center items-center space-x-5 list-none">
+                                menu
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* absolute inset-y-0 right-0 rtl:right-auto rtl:left-0  sm:static sm:inset-auto */}
+                    <div className="  flex items-center   space-x-3 md:space-x-6 rtl:space-x-reverse">
+                        language button
+                        {/* <Dropdown title={<GlobIcon />} left="ltr:-left-72 rtl:-right-32">
+                            <div className="px-5">
+                                <LangChange />
+                            </div>
+                        </Dropdown> */}
+                        <div className=" flex items-center md:hidden">
+                            <button
+                                type="button"
+                                onClick={() => setOpen(!open)}
+                                className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                            >
+                                <span className="sr-only">Open main menu</span>
+                                {open ? (
+                                    <ClosebarIcon className="h-6 w-6" aria-hidden="true" />
+                                ) : (
+                                    <MenubarIcon className="h-6 w-6" aria-hidden="true" />
+                                )}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {open && <MobileScreen setOpen={setOpen} />}
+            </div>
+        </nav>
+    );
+}
+
+export default PrimaryNavbar;
+
+```
+#### mobile navbar
+
+```ruby
+const MobileScreen=()=> {
+    return (
+        <div className="relative">
+            <div
+                className={`py-10 block xl:hidden absolute  top-4 left-0 right-0 bottom-0  bg-white/95 dark:bg-darkBg/95 z-50 rounded-xl min-h-[600px] overflow-y-scroll `}
+            >
+                <div className=" space-y-2">
+                    <ul className="items-start gap-6 flex flex-col px-10 ">menu</ul>
+                    {/* <div className="px-10 pt-6">
+                        <DropdownButton title="More" dropDownList={dropDownList} arrow />
+                    </div> */}
+                    {/* {!token && (
+                        <div className="flex sm:hidden  justify-center items-center gap-4  pt-20">
+                            <LoginModal />
+                            <RegisterModal />
+                        </div>
+                    )} */}
+                </div>
+            </div>
+        </div>
+    );
+}
+
+export default MobileScreen;
+
+
+```
+
+
 ### Mega menu/secondary navbar/ dropdown
 ```ruby
 /* eslint-disable jsx-a11y/no-static-element-interactions */
