@@ -331,6 +331,29 @@ const Modal = ({ title = '', children }) => {
 	const targetRef = useRef(null);
 	console.log(targetRef);
 
+	  useEffect(() => {
+	        const body = document.body;
+	        const originalStyle = window.getComputedStyle(body).overflowY;
+	       
+	        const scrollbarWidth = window.innerWidth - body.clientWidth;
+	        console.log({originalStyle,scrollbarWidth})
+	    
+	        if (open) {
+	            body.style.overflowY = 'hidden';
+	            body.style.marginRight = `${scrollbarWidth}px`;
+	            
+	        } else {
+	            body.style.overflowY = originalStyle;
+	            body.style.marginRight = '0';
+	        }
+	    
+	        return () => {
+	            body.style.overflowY = originalStyle;
+	            body.style.marginRight = '0';
+	        };
+	    
+	    }, [open]);
+
 	// useEffect(() => {
 	// 	const handleShowModal = (event) => {
 	// 		if (targetRef && !targetRef?.current?.contains(event.target)) {
