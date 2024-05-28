@@ -1406,7 +1406,7 @@ const ImageZoom = ({ imageSrc, imageWidth, imageHeight}) => {
           ref={imgRef}
           width={imageWidth}
           height={imageHeight}
-        />
+        >
         <div
           id="lens"
           ref={lensRef}
