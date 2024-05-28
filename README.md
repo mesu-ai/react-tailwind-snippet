@@ -1298,4 +1298,136 @@ export default TableData;
 
 ### Rating component
 
+```ruby
+import StarIcon from '@/assets/svgs/StarIcon';
+import React from 'react';
+
+const Rating = ({rating=4}) => {
+
+    return (
+        <li className='flex'>
+            {[...new Array(5)].map((_, index) => {
+                index += 1;
+                return <StarIcon className='h-3 w-3 sm:w-4 sm:h-4' key={index} color={index <= Math.ceil(rating) ? '#F47920' : '#E6E8EC'} />
+            })}
+        </li>
+    );
+};
+
+export default Rating;
+
 ```
+
+### Product Image Zoom (show side)
+
+```ruby
+
+
+import React, { useEffect, useRef } from 'react';
+
+const ImageZoom = ({ imageSrc, imageWidth, imageHeight}) => {
+  const lensRef = useRef(null);
+  const resultRef = useRef(null);
+  const imgRef = useRef(null);
+
+  const imageZoom = (img, result, lens, e) => {
+    const { width: imgWidth, height: imgHeight } = img.getBoundingClientRect();
+
+    const lensWidth = imgWidth / 3; // Adjust the lens size as needed
+    const lensHeight = imgHeight / 3;
+
+    const cx = img.width / lensWidth;
+    const cy = img.height / lensHeight;
+
+    result.style.width = `${imgWidth}px`; // Set the result size to match the image size
+    result.style.height = `${imgHeight}px`;
+
+    lens.style.width = `${lensWidth}px`;
+    lens.style.height = `${lensHeight}px`;
+
+    const imgRect = img.getBoundingClientRect();
+    let x = e.clientX - imgRect.left - lensWidth / 2;
+    let y = e.clientY - imgRect.top - lensHeight / 2;
+
+    // Ensure the lens stays within the image boundaries
+    x = Math.max(0, Math.min(imgWidth - lensWidth, x));
+    y = Math.max(0, Math.min(imgHeight - lensHeight, y));
+
+    lens.style.left = `${x}px`;
+    lens.style.top = `${y}px`;
+
+    const bgPosX = -(x * cx);
+    const bgPosY = -(y * cy);
+
+    result.style.backgroundImage = `url(${img.src})`;
+    result.style.backgroundSize = `${imgWidth * cx}px ${imgHeight * cy}px`;
+    result.style.backgroundPosition = `${bgPosX}px ${bgPosY}px`;
+  };
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      const img = imgRef.current;
+      const lens = lensRef.current;
+      const result = resultRef.current;
+
+      if (img && lens && result) {
+        const imgRect = img.getBoundingClientRect();
+        if (
+          e.clientX > imgRect.left &&
+          e.clientX < imgRect.right &&
+          e.clientY > imgRect.top &&
+          e.clientY < imgRect.bottom
+        ) {
+          lens.style.display = 'block';
+          result.style.display = 'block';
+          imageZoom(img, result, lens, e);
+        } else {
+          lens.style.display = 'none';
+          result.style.display = 'none';
+        }
+      }
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, [imageSrc]);
+
+
+
+  return (
+    <div>
+      <div className="relative">
+        <img
+          src={imageSrc}
+          alt="Zoomable"
+          className="border rounded-md mx-auto"
+          ref={imgRef}
+          width={imageWidth}
+          height={imageHeight}
+        />
+        <div
+          id="lens"
+          ref={lensRef}
+          className="absolute bg-gray-200 bg-opacity-40 border border-gray-400 hidden"
+          style={{ width: imageWidth / 3, height: imageHeight / 3 }}
+        ></div>
+
+      </div>
+      <div
+        id="result"
+        ref={resultRef}
+        className="z-10 absolute top-1/2 -translate-y-1/2 right-0 bg-no-repeat border border-gray-400 hidden"
+        style={{ width: imageWidth, height: imageHeight }}
+      ></div>
+    </div>
+  );
+};
+
+export default ImageZoom;
+
+
+```
+
+
